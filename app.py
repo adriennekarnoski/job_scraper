@@ -4,23 +4,20 @@ import pandas as pd
 import plotly
 import plotly.graph_objs
 import datetime
+from collections import Counter
 
-col_names = ['link', 'title', 'posted', 'company', 'location', 'tags']
+col_names = ['date', 'link', 'title', 'posted', 'company', 'location', 'tags']
 df = pd.read_csv('jobs.csv', delimiter='$', names=col_names, header=None)
 
 
 def state_counter():
     """Function to count instances of states."""
     state_list = []
-    state_dict = {}
     for item in df['location']:
         index = item.find(',')
         state = str(item[index + 2:])
         state_list.append(state)
-    for item in state_list:
-        state_dict[item] = 0
-    for item in state_list:
-        state_dict[item] += 1
+    state_dict = dict(Counter(state_list))
     return state_dict
 
 
@@ -29,7 +26,7 @@ def time_counter():
     time_dict = {}
     for i in range(8):
         time_dict[str(i)] = 0
-    now = datetime.datetime.now()
+    now = df['date'][0]
     for item in df['posted']:
         if item == 'yesterday':
             time_dict['1'] += 1
@@ -51,7 +48,13 @@ def time_counter():
 
 def get_weekdays(data):
     """Function to get day of the week and create list accordingly."""
-    days = ['Sunday', 'Saturday', 'Friday', 'Thursday', 'Wednesday', 'Tuesday', 'Monday']
+    days = ['Sunday',
+            'Saturday',
+            'Friday',
+            'Thursday',
+            'Wednesday',
+            'Tuesday',
+            'Monday']
     weekday = data.weekday()
     if weekday == 0:
         week = days[:]
@@ -62,6 +65,19 @@ def get_weekdays(data):
     return week
 
 
+def tag_counter():
+    """Function to return top ten tags for all posts."""
+    tag_list = []
+    tag_count = []
+    for item in df['tags']:
+        to_list = [x.strip() for x in item.split(',')]
+        filter_list = list(filter(None, to_list))
+        tag_list = tag_list + filter_list
+    tag_dict = dict(Counter(tag_list))
+    top_ten = sorted(tag_dict, key=tag_dict.get, reverse=True)[:10]
+    for item in top_ten:
+        tag_count.append(tag_dict[item])
+    return top_ten, tag_count
 
-if __name__ == '__main__':
-    state_counter()
+# if __name__ == '__main__':
+#     state_counter()
