@@ -73,6 +73,6 @@ def filter_tags(job):
 if __name__ == '__main__':
     url = 'https://stackoverflow.com/jobs?sort=i&q=python&l=United+States&d=100&u=Miles'
     scrape_page(url)
-    # for i in range(2, 11):
-    #     page = 'https://stackoverflow.com/jobs?q=python&l=United+States&d=100&u=Miles&sort=i&pg={}'.format(i)
-    #     scrape_page(page)
+    for i in range(2, 11):
+        page = 'https://stackoverflow.com/jobs?q=python&l=United+States&d=100&u=Miles&sort=i&pg={}'.format(i)
+        scrape_page(page)
