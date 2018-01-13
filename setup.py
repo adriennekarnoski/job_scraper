@@ -10,7 +10,13 @@ setup(
         'scrape',
         'job_data',
         ],
-    install_requires=['pandas', 'numpy', 'datetime'],
+    install_requires=[
+        'beautifulsoup4.',
+        'pandas',
+        'numpy',
+        'datetime',
+        'matplotlib',
+        'collections'],
     extras_require={'test': ['pytest', 'pytest-watch', 'pytest-cov']},
     package_dir={"": "src"}
 )
