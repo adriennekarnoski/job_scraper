@@ -3,6 +3,7 @@ import requests
 from bs4 import BeautifulSoup
 import csv
 import datetime
+import os
 
 
 def scrape_page(url):
@@ -18,6 +19,9 @@ def scrape_page(url):
 
 def organize_results(results):
     """Function to filter all categories and write to CSV file."""
+    if os.stat("jobs.csv").st_size != 0:
+        f = open('jobs.csv', "w+")
+        f.close()
     with open('jobs.csv', 'a') as csvfile:
         fieldnames = ['date', 'link', 'title', 'posted', 'company', 'location', 'tags']
         create = csv.DictWriter(csvfile, fieldnames=fieldnames, delimiter='$')
@@ -73,8 +77,9 @@ def filter_tags(job):
 
 
 if __name__ == '__main__':
-    url = 'https://stackoverflow.com/jobs?sort=i&q=python&l=United+States&d=100&u=Miles'
-    scrape_page(url)
+    # url = 'https://stackoverflow.com/jobs?sort=i&q=python&l=United+States&d=100&u=Miles'
+    # scrape_page(url)
     # for i in range(2, 11):
     #     page = 'https://stackoverflow.com/jobs?q=python&l=United+States&d=100&u=Miles&sort=i&pg={}'.format(i)
     #     scrape_page(page)
+    clear_thing()

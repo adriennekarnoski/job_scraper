@@ -10,7 +10,7 @@ setup(
         'scrape',
         'job_data',
         ],
-    install_requires=[],
-    extras_require={'test': ['pytest', 'pytest-watch', 'tox']},
+    install_requires=['pandas', 'numpy', 'datetime'],
+    extras_require={'test': ['pytest', 'pytest-watch', 'pytest-cov']},
     package_dir={"": "src"}
 )
